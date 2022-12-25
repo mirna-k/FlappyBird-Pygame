@@ -1,11 +1,9 @@
 import pygame
 import random
+from settings import * 
 
 pygame.init()
 
-WIDTH = 480
-HEIGHT = 800
-FRAMERATE = 60
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Flappy Bird')
 
