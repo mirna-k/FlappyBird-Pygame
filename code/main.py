@@ -14,19 +14,25 @@ light_blue = (173, 216, 230)
 black = (5, 5, 5)
 red = (227, 66, 52)
 
-passage_width = random.randint(200, 350)
-passage_height = random.randint(200, 600)
+passage_width = 230
+passage_height = random.randint(285, 500)
 
-# ELEMENTS
-PLAYER = pygame.Rect(WIDTH/4-25, HEIGHT/2, 50, 50)
-down_obst = pygame.Rect((WIDTH, passage_height), (50, 600))
-up_obst = pygame.Rect((WIDTH, passage_height - passage_width - 600), (50, 600))
+# PLAYER
+player_image = pygame.image.load("graphics/bird/flying/frame-1.png").convert_alpha()
+PLAYER = pygame.transform.scale(player_image, (76,60))
+player_rect = PLAYER.get_rect(center = (WIDTH/4, HEIGHT/2))
+
+# OBSTACLES
+down_obst_image = pygame.image.load("graphics/obstacles/down_pipe.png")
+down_obst = down_obst_image.get_rect(topleft = (WIDTH, passage_height + passage_width/2))
+up_obst_image = pygame.image.load("graphics/obstacles/up_pipe.png")
+up_obst = up_obst_image.get_rect(topleft = (WIDTH, passage_height - passage_width/2 - 400))
 
 def window():
     SCREEN.fill(light_blue)
-    pygame.draw.rect(SCREEN, black, PLAYER)
-    pygame.draw.rect(SCREEN, red, down_obst)
-    pygame.draw.rect(SCREEN, red, up_obst)
+    SCREEN.blit(PLAYER, (player_rect.x, player_rect.y))
+    SCREEN.blit(down_obst_image, (down_obst.x, down_obst.y))
+    SCREEN.blit(up_obst_image, (up_obst.x, up_obst.y))
     pygame.display.update()
     
 
@@ -37,7 +43,7 @@ def player_movement(player: pygame.Rect, pressed_key):
     player.y = round(position.y)
 
     if pressed_key[pygame.K_SPACE]:
-        player.y += -25
+        player.y += -20
 
     if player.colliderect(down_obst) or player.colliderect(up_obst):
         pygame.quit()
@@ -67,7 +73,7 @@ def main():
 
         window()
         obstacles_movement(down_obst, up_obst)
-        player_movement(PLAYER, pressed_key)
+        player_movement(player_rect, pressed_key)
         
     pygame.quit()
 
