@@ -1,5 +1,6 @@
 import pygame, sys, time
 from settings import *
+from sprites import Background
 
 class Game():
     def __init__(self) -> None:
@@ -8,6 +9,12 @@ class Game():
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('Flappy Bird')
         self.clock = pygame.time.Clock()
+
+        # sprite groups
+        self.all_sprites = pygame.sprite.Group()
+
+        # sprite setup
+        Background(self.all_sprites)
 
     def run(self):
         last_time = time.time()
@@ -24,5 +31,8 @@ class Game():
                     sys.exit()
 
             # game logic
+            self.all_sprites.update(dt)
+            self.all_sprites.draw(self.screen)
+
             pygame.display.update()
             self.clock.tick(FRAMERATE)
