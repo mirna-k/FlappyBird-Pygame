@@ -19,8 +19,7 @@ passage_height = random.randint(285, 500)
 
 # PLAYER
 player_image = pygame.image.load("graphics/bird/flying/frame-1.png").convert_alpha()
-PLAYER = pygame.transform.scale(player_image, (76,60))
-player_rect = PLAYER.get_rect(center = (WIDTH/4, HEIGHT/2))
+PLAYER = player_image.get_rect(center = (WIDTH/4, HEIGHT/2))
 
 # OBSTACLES
 down_obst_image = pygame.image.load("graphics/obstacles/down_pipe.png")
@@ -30,7 +29,7 @@ up_obst = up_obst_image.get_rect(topleft = (WIDTH, passage_height - passage_widt
 
 def window():
     SCREEN.fill(light_blue)
-    SCREEN.blit(PLAYER, (player_rect.x, player_rect.y))
+    SCREEN.blit(player_image, (PLAYER.x, PLAYER.y))
     SCREEN.blit(down_obst_image, (down_obst.x, down_obst.y))
     SCREEN.blit(up_obst_image, (up_obst.x, up_obst.y))
     pygame.display.update()
@@ -73,7 +72,7 @@ def main():
 
         window()
         obstacles_movement(down_obst, up_obst)
-        player_movement(player_rect, pressed_key)
+        player_movement(PLAYER, pressed_key)
         
     pygame.quit()
 
