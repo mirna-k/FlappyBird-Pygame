@@ -33,7 +33,7 @@ class Bird(pygame.sprite.Sprite):
 
         # image
         self.import_frames()
-        self.frame_index = 0
+        self.frame_index = 1
         self.image = self.frames[self.frame_index]
 
         # rect
@@ -59,7 +59,18 @@ class Bird(pygame.sprite.Sprite):
     def jump(self):
         self.direction = -400
 
+    def animate(self, dt):
+        self.frame_index += 5 * dt
+        if self.frame_index >= len(self.frames):
+            self.frame_index = 1
+
+        self.image = self.frames[int(self.frame_index)]
+
+    def rotate(self):
+        rotated_bird = pygame.transform.rotozoom(self.image, -self.direction * 0.05, 1)
+        self.image = rotated_bird
+
     def update(self, dt):
         self.apply_gravity(dt)
-        #self.animate(dt)
-        #self.rotate(dt)
+        self.animate(dt)
+        self.rotate()
