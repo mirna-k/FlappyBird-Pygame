@@ -1,6 +1,6 @@
 import pygame, sys, time
 from settings import *
-from sprites import Background
+from sprites import Background, Ground, Bird
 
 class Game():
     def __init__(self) -> None:
@@ -15,6 +15,8 @@ class Game():
 
         # sprite setup
         Background(self.all_sprites)
+        self.bird = Bird(self.all_sprites)
+
 
     def run(self):
         last_time = time.time()
@@ -29,6 +31,9 @@ class Game():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+            if pygame.key.get_pressed()[pygame.K_SPACE]:
+                self.bird.jump()
 
             # game logic
             self.all_sprites.update(dt)
