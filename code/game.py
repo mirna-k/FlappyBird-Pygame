@@ -34,6 +34,10 @@ class Game():
         self.restart_surface = pygame.image.load('graphics/ui/restart.png').convert_alpha()
         self.restart_rect = self.restart_surface.get_rect(center = (WIDTH/2, HEIGHT/2))
 
+        # music
+        self.music = pygame.mixer.Sound('sounds/music.wav')
+        self.music.play(loops = -1).set_volume(0.3)
+
 
     def display_score(self):
         score_surface = self.font.render(str(int(self.score)), True, 'black')

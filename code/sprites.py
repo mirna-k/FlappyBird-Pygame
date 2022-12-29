@@ -68,6 +68,11 @@ class Bird(pygame.sprite.Sprite):
         self.gravity = 600
         self.direction = 0
 
+        # sound
+        self.jump_sound = pygame.mixer.Sound('sounds\jump.wav')
+        self.jump_sound.set_volume(0.2)
+
+
     def import_frames(self):
         self.frames = []
 
@@ -81,6 +86,7 @@ class Bird(pygame.sprite.Sprite):
         self.rect.y = round(self.pos.y)
 
     def jump(self):
+        self.jump_sound.play()
         self.direction = -400
 
     def animate(self, dt):
