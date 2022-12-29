@@ -9,6 +9,7 @@ class Game():
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('Flappy Bird')
         self.clock = pygame.time.Clock()
+        self.active = True
 
         # sprite groups
         self.all_sprites = pygame.sprite.Group()
@@ -29,17 +30,26 @@ class Game():
         self.score = 0
         self.passing_pipe = False
 
+        # restart menu
+        self.restart_surface = pygame.image.load('graphics/ui/restart.png').convert_alpha()
+        self.restart_rect = self.restart_surface.get_rect(center = (WIDTH/2, HEIGHT/2))
+
+
     def display_score(self):
         score_surface = self.font.render(str(int(self.score)), True, 'black')
         score_rect = score_surface.get_rect(midtop = (WIDTH/2, HEIGHT/30))
         self.screen.blit(score_surface, score_rect)
 
+
     def collisions(self):
         if pygame.sprite.spritecollide(self.bird, self.collision_sprites, False, pygame.sprite.collide_mask)\
              or self.bird.rect.bottom <= -100:
-            print('collision')
-            pygame.quit()
-            sys.exit()
+
+            for sprite in self.pipe_sprites.sprites():
+                sprite.kill()
+            self.bird.kill()
+            self.active = False
+
 
     def run(self):
         last_time = time.time()
@@ -62,18 +72,27 @@ class Game():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == self.obstacle_timer:
+                if event.type == self.obstacle_timer and self.active:
                     pipe_height = random.randint(200, 400)
                     Obsticle("down", pipe_height, [self.all_sprites, self.collision_sprites, self.pipe_sprites])
                     Obsticle("up", pipe_height, [self.all_sprites, self.collision_sprites, self.pipe_sprites])
 
             if pygame.key.get_pressed()[pygame.K_SPACE]:
-                self.bird.jump()
+                if self.active:
+                    self.bird.jump()
+                else:
+                    self.bird = Bird(self.all_sprites)
+                    self.active = True
+                    self.score = 0
 
             # game logic
-            self.all_sprites.update(dt)
-            self.collisions()
-            self.all_sprites.draw(self.screen)
+            if self.active:
+                self.all_sprites.update(dt)
+                self.all_sprites.draw(self.screen)
+                self.collisions()
+            else:
+                self.screen.blit(self.restart_surface, self.restart_rect)
+
             self.display_score()
 
             pygame.display.update()
