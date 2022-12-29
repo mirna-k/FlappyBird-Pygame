@@ -12,16 +12,20 @@ class Game():
 
         # sprite groups
         self.all_sprites = pygame.sprite.Group()
+        self.collision_sprites = pygame.sprite.Group()
 
         # sprite setup
         Background(self.all_sprites)
-        Ground(self.all_sprites)
+        Ground([self.all_sprites, self.collision_sprites])
         self.bird = Bird(self.all_sprites)
 
         #timer
         self.obstacle_timer = pygame.USEREVENT + 1
         pygame.time.set_timer(self.obstacle_timer, 1500)
 
+    def collisions(self):
+        if pygame.sprite.spritecollide(self.bird, self.collision_sprites, False):
+            print('collision')
 
     def run(self):
         last_time = time.time()
@@ -38,14 +42,15 @@ class Game():
                     sys.exit()
                 if event.type == self.obstacle_timer:
                     pipe_height = random.randint(200, 400)
-                    Obsticle("down", pipe_height, self.all_sprites)
-                    Obsticle("up", pipe_height, self.all_sprites)
+                    Obsticle("down", pipe_height, [self.all_sprites, self.collision_sprites])
+                    Obsticle("up", pipe_height, [self.all_sprites, self.collision_sprites])
 
             if pygame.key.get_pressed()[pygame.K_SPACE]:
                 self.bird.jump()
 
             # game logic
             self.all_sprites.update(dt)
+            self.collisions()
             self.all_sprites.draw(self.screen)
 
             pygame.display.update()
