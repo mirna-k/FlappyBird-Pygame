@@ -1,7 +1,7 @@
 import pygame
 from settings import *
 
-bg_image = pygame.image.load('graphics/environment/bg.png').convert()
+bg_image = pygame.image.load('graphics/environment/bg.png')
 scale_factor = HEIGHT / bg_image.get_height()
 
 class Background(pygame.sprite.Sprite):
@@ -11,7 +11,7 @@ class Background(pygame.sprite.Sprite):
 
         full_height = bg_image.get_height() * scale_factor
         full_width = bg_image.get_width() * scale_factor
-        full_sized_image = pygame.transform.scale(bg_image, (full_width, full_height))
+        full_sized_image = pygame.transform.scale(bg_image, (full_width, full_height)).convert()
 
         self.image = pygame.Surface((full_width * 2, full_height))
         self.image.blit(full_sized_image, (0,0))
