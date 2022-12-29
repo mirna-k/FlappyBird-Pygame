@@ -40,6 +40,9 @@ class Ground(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(bottomleft=(0, HEIGHT))
         self.pos = pygame.math.Vector2(self.rect.topleft)
 
+        # mask
+        self.mask = pygame.mask.from_surface(self.image)
+
     def update(self, dt):
         self.pos.x -= 360 * dt
         if self.rect.centerx <= 0:
@@ -90,6 +93,7 @@ class Bird(pygame.sprite.Sprite):
     def rotate(self):
         rotated_bird = pygame.transform.rotozoom(self.image, -self.direction * 0.05, 1)
         self.image = rotated_bird
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, dt):
         self.apply_gravity(dt)
@@ -117,6 +121,9 @@ class Obsticle(pygame.sprite.Sprite):
             self.rect.bottomleft = (x, y)
 
         self.pos = pygame.math.Vector2(self.rect.topleft)
+
+        # mask
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, dt):
         self.pos.x -= 400 * dt

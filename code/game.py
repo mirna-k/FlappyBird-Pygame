@@ -24,8 +24,10 @@ class Game():
         pygame.time.set_timer(self.obstacle_timer, 1500)
 
     def collisions(self):
-        if pygame.sprite.spritecollide(self.bird, self.collision_sprites, False):
+        if pygame.sprite.spritecollide(self.bird, self.collision_sprites, False, pygame.sprite.collide_mask):
             print('collision')
+            pygame.quit()
+            sys.exit()
 
     def run(self):
         last_time = time.time()
