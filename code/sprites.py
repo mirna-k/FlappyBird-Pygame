@@ -1,13 +1,14 @@
 import pygame
 from settings import *
 
+bg_image = pygame.image.load('graphics/environment/bg.png').convert()
+scale_factor = HEIGHT / bg_image.get_height()
+
 class Background(pygame.sprite.Sprite):
 
     def __init__(self, *groups):
         super().__init__(*groups)
-        bg_image = pygame.image.load('graphics/environment/bg.png').convert()
 
-        scale_factor = HEIGHT / bg_image.get_height()
         full_height = bg_image.get_height() * scale_factor
         full_width = bg_image.get_width() * scale_factor
         full_sized_image = pygame.transform.scale(bg_image, (full_width, full_height))
@@ -31,9 +32,6 @@ class Background(pygame.sprite.Sprite):
 class Ground(pygame.sprite.Sprite):
     def __init__(self, *groups):
         super().__init__(*groups)
-
-        bg_image = pygame.image.load('graphics/environment/bg.png').convert()
-        scale_factor = HEIGHT / bg_image.get_height()
 
         ground_surf = pygame.image.load('graphics/environment/ground.png').convert_alpha()
         self.image = pygame.transform.scale(ground_surf, pygame.math.Vector2(ground_surf.get_size()) * scale_factor)
