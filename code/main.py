@@ -14,18 +14,18 @@ light_blue = (173, 216, 230)
 black = (5, 5, 5)
 red = (227, 66, 52)
 
-passage_width = 230
+passage_gap = 450
 passage_height = random.randint(285, 500)
 
 # PLAYER
-player_image = pygame.image.load("graphics/bird/flying/frame-1.png").convert_alpha()
+player_image = pygame.image.load("graphics/bird/bird1.png").convert_alpha()
 PLAYER = player_image.get_rect(center = (WIDTH/4, HEIGHT/2))
 
 # OBSTACLES
-down_obst_image = pygame.image.load("graphics/obstacles/down_pipe.png")
-down_obst = down_obst_image.get_rect(topleft = (WIDTH, passage_height + passage_width/2))
-up_obst_image = pygame.image.load("graphics/obstacles/up_pipe.png")
-up_obst = up_obst_image.get_rect(topleft = (WIDTH, passage_height - passage_width/2 - 400))
+down_obst_image = pygame.image.load("graphics/obstacles/pipe.png")
+down_obst = down_obst_image.get_rect(topleft = (WIDTH - 100, passage_height + passage_gap/2))
+up_obst_image = pygame.transform.flip(down_obst_image, False, True)
+up_obst = up_obst_image.get_rect(bottomleft = (WIDTH - 100, passage_height))
 
 def window():
     SCREEN.fill(light_blue)
@@ -36,13 +36,13 @@ def window():
     
 
 def player_movement(player: pygame.Rect, pressed_key):
-    gravity = 6
+    gravity = 5
     position = pygame.math.Vector2(player.topleft)
     position.y += gravity
     player.y = round(position.y)
 
     if pressed_key[pygame.K_SPACE]:
-        player.y += -20
+        player.y += -12
 
     if player.colliderect(down_obst) or player.colliderect(up_obst):
         pygame.quit()
