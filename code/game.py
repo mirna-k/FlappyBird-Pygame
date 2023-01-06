@@ -3,7 +3,7 @@ from settings import *
 from sprites import Background, Ground, Bird, Obsticle
 
 class Game():
-    
+
     def __init__(self) -> None:
         
         pygame.init()
@@ -17,7 +17,7 @@ class Game():
         self.collision_sprites = pygame.sprite.Group()
         self.pipe_sprites = pygame.sprite.Group()
 
-        # sprite setup
+        # sprites
         Background(self.all_sprites)
         Ground([self.all_sprites, self.collision_sprites])
         self.bird = Bird(self.all_sprites)
@@ -41,7 +41,7 @@ class Game():
 
 
     def display_score(self):
-        score_surface = self.font.render(str(int(self.score)), True, 'black')
+        score_surface = self.font.render(str(self.score), True, 'black')
         score_rect = score_surface.get_rect(midtop = (WIDTH/2, HEIGHT/30))
         self.screen.blit(score_surface, score_rect)
 

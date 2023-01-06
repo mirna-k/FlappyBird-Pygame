@@ -61,7 +61,7 @@ class Bird(pygame.sprite.Sprite):
 
         # image
         self.import_frames()
-        self.frame_index = 1
+        self.frame_index = 0
         self.image = self.frames[self.frame_index]
 
         # rect
@@ -99,7 +99,7 @@ class Bird(pygame.sprite.Sprite):
     def animate(self, dt):
         self.frame_index += 5 * dt
         if self.frame_index >= len(self.frames):
-            self.frame_index = 1
+            self.frame_index = 0
 
         self.image = self.frames[int(self.frame_index)]
 
@@ -125,13 +125,13 @@ class Obsticle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         x = WIDTH + 100
-        pipe_gap = 350
+        pipe_gap = 150
 
         if position == "down":
             y = pipe_height + int(pipe_gap/2)
             self.rect.topleft = (x, y)
         if position == "up":
-            y = pipe_height
+            y = pipe_height - int(pipe_gap/2)
             self.image = pygame.transform.flip(self.image, False, True)
             self.rect.bottomleft = (x, y)
 
